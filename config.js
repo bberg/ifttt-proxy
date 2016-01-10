@@ -5,6 +5,7 @@ log.debug(process.env)
 if(process.env['HOME']=='/home/benashbe'){
     var port = 19537
     var env = 'prod'
+    // in prod we need to hide the secrets outside our git directory!
     var secrets = require('/home/benashbe/secrets.js')
     log.error('RUNNING ON SERVER... PORT: '+port.toString())
 }
@@ -19,4 +20,3 @@ if(process.env['HOME']=='/Users/benberg'){
 wmata_api_key = secrets.wmata_api_key
 
 module.exports = {"wmata_api_key":wmata_api_key, "port":port, "env":env}
-// module.exports = port
