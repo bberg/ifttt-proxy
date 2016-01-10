@@ -1,3 +1,4 @@
+var path = require('path');
 var bunyan = require('bunyan');
 var log = bunyan.createLogger({
   name: 'myapp',
