@@ -7,7 +7,6 @@ var log = require(path.join(__dirname, 'log'));
 var config = require(path.join(__dirname, 'config'));
 var app = express();
 
-
 log.error('---- APP RESTART ----');
 
 app.use(bodyParser.json());
