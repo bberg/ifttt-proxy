@@ -1,5 +1,6 @@
 var path = require('path');
 var log = require(path.join(__dirname, 'log'));
+var secrets = requre(path.join(__dirname,'secrets'))
 log.debug(process.env)
 if(process.env['HOME']=='/home/benashbe'){
     var port = 19537
@@ -12,7 +13,8 @@ if(process.env['HOME']=='/Users/benberg'){
     log.error('RUNNING ON DEV... PORT: '+port.toString())
 }
 
-var wmata_api_key = '4e7c50268806494dbb109d8ee4495169'
+
+wmata_api_key = secrets.wmata_api_key
 
 module.exports = {"wmata_api_key":wmata_api_key, "port":port, "env":env}
 // module.exports = port

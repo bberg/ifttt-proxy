@@ -34,12 +34,12 @@ function general_proxy(req,res){
         proxyResponse.on('end', function () {
             res.status(200).json(str)
             responseObject = JSON.parse(str)
-            log.info({"proxyResponse":{"headers":proxyResponse.headers,"payload":responseObject}})
+            log.debug({"proxyResponse":{"headers":proxyResponse.headers,"payload":responseObject}})
             str = parse_general_response(responseObject, req.body['parser'])
             send_ifttt_post(req.body.event,req.body.ifttt_key,{"value1":str},res)
         })
     })
-    log.info({"proxyRequest":{"options":options,"payload":req.body.proxyRequest.payload}})
+    log.debug({"proxyRequest":{"options":options,"payload":req.body.proxyRequest.payload}})
     if(req.body.proxyRequest.payload!=undefined){
         proxyRequest.write(req.body.proxyRequest.payload)
     }
@@ -111,7 +111,8 @@ function send_ifttt_post(maker_event,ifttt_key,payload,res){
     })
     iftttPost.write(JSON.stringify(payload))
     iftttPost.end()
-    log.info({"outboundRequest":{"options":options,"payload":payload}})
+    log.info({"outboundRequest":{"maker_event":maker_event, "ifttt_key":ifttt_key}})
+    log.debug({"outboundRequest":{"options":options,"payload":payload}})
 }
 
 function parse_wmata_response(req, res, str){
@@ -127,7 +128,7 @@ function parse_wmata_response(req, res, str){
         outputObject[train['Destination']].push(train['Min'])
     }
 
-    log.info(outputObject)
+    log.debug(outputObject)
     for (i in outputObject){
         outString = i
         for (trainTime in outputObject[i]){

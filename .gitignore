@@ -1,4 +1,8 @@
+# mac image cache
 *.DS_Store
+
+# secrets!
+secrets.js
 
 # Logs
 logs
