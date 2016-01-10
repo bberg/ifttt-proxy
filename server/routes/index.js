@@ -3,17 +3,17 @@ var router = express.Router();
 var path = require('path');
 var config = require(path.join(__dirname, '../', '../', 'config'));
 var log = require(path.join(__dirname, '../', '../', 'log'));
-var env = '/ifttt-relay'
+// var env = '/ifttt-relay'
 var http = require('https')
 
 
-router.post(env+'/api/v1/wmata/trains', function(req, res, next) {
+router.post('/api/v1/wmata/trains', function(req, res, next) {
     log.info({"inboundRequest":{"ip":req.ip,"url":"/api/v1/wmata/trains"}})
     log.debug({"inboundRequest":{"ip":req.ip,"url":"/api/v1/wmata/trains","body": req.body,"headers":req.headers}})
     respond_with_trains(req,res)
 });
 
-router.post(env+'/api/v1/', function(req,res,next){
+router.post('/api/v1/', function(req,res,next){
     log.info({"inboundRequest":{"ip":req.ip,"url":"/api/vi/"}})
     log.debug({"inboundRequest":{"ip":req.ip,"url":"/api/v1/","body": req.body,"headers":req.headers}})
     general_proxy(req,res)
