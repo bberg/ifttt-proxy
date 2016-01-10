@@ -21,7 +21,7 @@ router.post('/api/v1/', function(req,res,next){
 
 router.get('/', function(req,res){
     log.info('redirecting user to github')
-    res.redirect('https://github.com/bberg/iftttt-proxy');
+    res.redirect('https://github.com/bberg/ifttt-proxy');
 })
 
 module.exports = router;
