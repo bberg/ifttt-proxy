@@ -5,6 +5,7 @@ var config = require(path.join(__dirname, '../', '../', 'config'));
 var log = require(path.join(__dirname, '../', '../', 'log'));
 var http = require('https')
 
+
 router.post('/api/v1/wmata/trains', function(req, res, next) {
     log.info({"inboundRequest":{"ip":req.ip,"url":"/api/v1/wmata/trains"}})
     log.debug({"inboundRequest":{"ip":req.ip,"url":"/api/v1/wmata/trains","body": req.body,"headers":req.headers}})
@@ -34,12 +35,12 @@ function general_proxy(req,res){
         proxyResponse.on('end', function () {
             res.status(200).json(str)
             responseObject = JSON.parse(str)
-            log.info({"outboundResponse":{"headers":proxyResponse.headers,"payload":responseObject}})
+            log.info({"proxyResponse":{"headers":proxyResponse.headers,"payload":responseObject}})
             str = parse_general_response(responseObject, req.body['parser'])
             send_ifttt_post(req.body.event,req.body.ifttt_key,{"value1":str},res)
         })
     })
-    log.info({"outboundRequest":{"options":options,"payload":req.body.proxyRequest.payload}})
+    log.info({"proxyRequest":{"options":options,"payload":req.body.proxyRequest.payload}})
     if(req.body.proxyRequest.payload!=undefined){
         proxyRequest.write(req.body.proxyRequest.payload)
     }
