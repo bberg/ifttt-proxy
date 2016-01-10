@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var wmata_api_key = require(path.join(__dirname, '../', '../', 'config'));
+var config = require(path.join(__dirname, '../', '../', 'config'));
 var log = require(path.join(__dirname, '../', '../', 'log'));
 var env = '/ifttt-relay'
 var http = require('https')
+
 
 router.post(env+'/api/v1/wmata/trains', function(req, res, next) {
     log.info({"inboundRequest":{"ip":req.ip,"url":"/api/v1/wmata/trains"}})
@@ -54,7 +55,7 @@ function respond_with_trains(req, res){
     var options = {
       host: 'api.wmata.com',
       path: '/StationPrediction.svc/json/GetPrediction/'+req.body.station,
-      headers: {"api_key":wmata_api_key,"Content-Type":"application/json"},
+      headers: {"api_key":config.wmata_api_key,"Content-Type":"application/json"},
       method: 'GET'
     };
 

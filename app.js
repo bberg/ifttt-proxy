@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var routes = require('./server/routes/index');
 var express = require('express');
 var log = require(path.join(__dirname, 'log'));
-var port = require(path.join(__dirname, 'config'));
+var config = require(path.join(__dirname, 'config'));
 var app = express();
 
 
@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-app.listen(port)
+app.listen(config.port)
 module.exports = app;
 
 
