@@ -14,7 +14,7 @@ router.post('/api/v1/wmata/trains', function(req, res, next) {
 });
 
 router.post('/api/v1/', function(req,res,next){
-    log.info({"inboundRequest":{"ip":req.ip,"url":"/api/vi/"}})
+    log.info({"inboundRequest":{"ip":req.ip,"url":"/api/v1/"}})
     log.debug({"inboundRequest":{"ip":req.ip,"url":"/api/v1/","body": req.body,"headers":req.headers}})
     general_proxy(req,res)
 })
@@ -35,12 +35,12 @@ function general_proxy(req,res){
         })
         proxyResponse.on('end', function () {
             str = parse_general_response(str, req.body['parser'])
+            log.debug({"outboundRequest":{"options":options,"payload":str}})
             send_ifttt_post(req.body.event,req.body.ifttt_key,{"value1":str},res)
-            log.debug({"outboundResponse":str})
         })
     })
     proxyRequest.end();
-    log.debug({"outboundRequest":{"options":options,"payload":payload}})    
+    
 }
 
 // TODO
