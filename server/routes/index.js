@@ -19,4 +19,9 @@ router.post('/api/v1/', function(req,res,next){
     api.general_proxy(req,res)
 })
 
+router.get('/', function(req,res){
+    log.info('redirecting user to github')
+    res.redirect('https://github.com/bberg/iftttt-proxy');
+})
+
 module.exports = router;
