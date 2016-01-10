@@ -8,15 +8,17 @@ var log = bunyan.createLogger({
     },
     {
         level: 'debug',
-        path: './logs/myapp-debug.log'
+        path: path.join(__dirname, './logs/myapp-debug.log')
     },
     {
         level: 'info',
-        path: './logs/myapp-info.log'
+        path: path.join(__dirname, './logs/myapp-info.log')
+        // path: './logs/myapp-info.log'
     },
     {
         level: 'error',
-        path: './logs/myapp-error.log'
+        path: path.join(__dirname, './logs/myapp-error.log')
+        // path: './logs/myapp-error.log'
     }
   ]
 });
