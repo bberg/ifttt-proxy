@@ -22,7 +22,10 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-app.listen(config.port)
+if(config.env == 'dev'){
+    app.listen(config.port)    
+}
+
 module.exports = app;
 
 
