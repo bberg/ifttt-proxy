@@ -1,6 +1,6 @@
 var path = require('path');
 var log = require(path.join(__dirname, 'log'));
-var secrets = requre(path.join(__dirname,'secrets'))
+var secrets = require(path.join(__dirname,'secrets'))
 log.debug(process.env)
 if(process.env['HOME']=='/home/benashbe'){
     var port = 19537
