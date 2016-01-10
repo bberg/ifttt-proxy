@@ -26,7 +26,6 @@ app.listen(config.port)
 
 module.exports = app;
 
-
 // app.use(express.static(path.join(__dirname, './client', 'public')));
 
 // var favicon = require('serve-favicon');
