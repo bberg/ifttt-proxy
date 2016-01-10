@@ -3,7 +3,6 @@ var router = express.Router();
 var path = require('path');
 var config = require(path.join(__dirname, '../', '../', 'config'));
 var log = require(path.join(__dirname, '../', '../', 'log'));
-// var env = '/ifttt-relay'
 var http = require('https')
 
 
@@ -34,21 +33,41 @@ function general_proxy(req,res){
             str += chunk;
         })
         proxyResponse.on('end', function () {
-            str = parse_general_response(str, req.body['parser'])
-            log.debug({"outboundRequest":{"options":options,"payload":str}})
+            res.status(200).json(str)
+            responseObject = JSON.parse(str)
+            log.info({"outboundResponse":{"headers":proxyResponse.headers,"payload":responseObject}})
+            str = parse_general_response(responseObject, req.body['parser'])
             send_ifttt_post(req.body.event,req.body.ifttt_key,{"value1":str},res)
         })
     })
+    log.info({"outboundRequest":{"options":options,"payload":req.body.proxyRequest.payload}})
+    if(req.body.proxyRequest.payload!=undefined){
+        proxyRequest.write(req.body.proxyRequest.payload)
+    }
     proxyRequest.end();
-    
 }
 
 // TODO
-function parse_general_response(str, parser){
+function parse_general_response(object, parser){
+    outputString = ''
     if (parser != undefined){
-        str = str
+        log.debug('PARSER: '+JSON.stringify(parser))
+        for (word in parser){
+            objectWord = object
+            thisWord = parser[word]
+            while (thisWord.length > 0){
+                objectWord = objectWord[thisWord[0]]
+                log.debug('OBJECT: '+JSON.stringify(objectWord))
+                thisWord.splice(0,1)
+            }
+            outputString += objectWord + ' '
+        }
+        log.debug('OUTPUT STRING: '+outputString)
+        return outputString
     }
-    return str
+    else{
+        return object    
+    }
 }
 
 function respond_with_trains(req, res){
@@ -88,12 +107,12 @@ function send_ifttt_post(maker_event,ifttt_key,payload,res){
             str += chunk;
         })
         response.on('end', function () {
-            log.debug({"outboundResponse":str})
+            log.info({"outboundResponse":str})
         })
     })
     iftttPost.write(JSON.stringify(payload))
     iftttPost.end()
-    log.debug({"outboundRequest":{"options":options,"payload":payload}})
+    log.info({"outboundRequest":{"options":options,"payload":payload}})
 }
 
 function parse_wmata_response(req, res, str){
