@@ -4,7 +4,29 @@ var bodyParser = require('body-parser');
 var routes = require('./server/routes/index');
 var express = require('express');
 var log = require(path.join(__dirname, 'log'));
+var port = require(path.join(__dirname, 'config'));
 var app = express();
+
+
+log.error('---- APP RESTART ----');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/', routes);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+app.listen(port)
+module.exports = app;
+
+
+// app.use(express.static(path.join(__dirname, './client', 'public')));
 
 // var favicon = require('serve-favicon');
 
@@ -15,25 +37,6 @@ var app = express();
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/client/public/favicon.ico'));
 // app.use(logger('dev'));
-
-
-
-log.error('---- APP RESTART ----');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, './client', 'public')));
-
-app.use('/', routes);
-// app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
 
 // error handlers
 
@@ -60,5 +63,4 @@ app.use(function(req, res, next) {
 //   });
 // });
 
-app.listen(3000)
-module.exports = app;
+
